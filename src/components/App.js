@@ -4,25 +4,12 @@ import ProductCard from "./ProductCard";
 import Navbar from "./Navbar";
 import ProductDetail from "./ProductDetail";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import useFetch from "../hooks/hooks";
 
 function App() {
-  const [products, setProducts] = useState(null);
-  const [isPending, setIsPending] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        let res = await fetch("http://localhost:8000/api/products");
-        let data = await res.json();
-        setProducts(data);
-        setIsPending(false);
-      } catch (err) {
-        setError(err.message);
-      }
-    }
-    fetchData();
-  }, []);
+  const { data:products, isPending, error } = useFetch(
+    `http://localhost:8000/api/products`
+  );
 
   return (
     <BrowserRouter>
